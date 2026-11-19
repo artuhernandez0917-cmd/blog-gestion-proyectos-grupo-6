@@ -37,6 +37,7 @@ const sections = [
   { id: 'roles', label: 'Roles de Scrum', icon: Users },
   { id: 'conceptos', label: 'Conceptos', icon: Layers3 },
   { id: 'daily', label: 'Daily Scrum', icon: MessageCircle },
+  { id: 'publicaciones', label: 'Publicaciones', icon: BookOpen },
   { id: 'grupo', label: 'Grupo 6', icon: GraduationCap },
 ]
 
@@ -144,6 +145,87 @@ const concepts = [
   },
 ]
 
+
+const articles = [
+  {id:'taller-2', title:'Plan integral del proyecto AgroScan', date:'13 de noviembre de 2026', type:'Taller 2', description:'Planificación integral del sistema de auditoría y control ambiental agroindustrial.', searchText:'alcance viabilidad técnica económica operativa legal cronograma riesgos calidad requerimientos personal presupuesto',},
+  {id:'taller-1', title:'AgroScan: propuesta de software ambiental', date:'12 de noviembre de 2026', type:'Taller 1', description:'Identificación del problema, propuesta de solución, actores involucrados y planificación inicial.', searchText:'palmeras bananeras cliente interesados pesticidas deforestación agua alcance riesgos presupuesto cronograma',},
+]
+const schedule = [['Análisis de requerimientos',2],['Diseño del sistema',2],['Desarrollo y programación',4],['Pruebas del software',2],['Implementación y capacitación',1],['Entrega final',1]]
+const budget = [['Análisis y diseño',5000000],['Desarrollo del software',18000000],['Base de datos y alojamiento',3000000],['Pruebas y seguridad',4000000],['Implementación y capacitación',3000000],['Mantenimiento inicial',2000000]]
+const modules = [
+ ['Pesticidas','Registro de productos, cantidades, fechas, zonas e historial de aplicaciones.'],
+ ['Consumo de agua','Medición por zona y periodo; alertas ante excesos frente a umbrales.'],
+ ['Cobertura vegetal','Registro de áreas intervenidas y cambios de cobertura; imágenes satelitales solo mediante fuente externa.'],
+ ['Vertimientos','Registro básico de vertimientos de plantas de beneficio y frigoríficos.'],
+ ['Auditoría y alertas','Informes por zona y periodo, exportación PDF/Excel y alertas ambientales.'],
+ ['Usuarios y campo','Roles y permisos; captura sin conexión y sincronización posterior prevista.'],
+]
+const risks = [
+ ['Registro incorrecto de pesticidas','Validar rangos, unidades y catálogos.'],
+ ['Fallas de conexión','Almacenamiento temporal y sincronización posterior.'],
+ ['Pérdida de información','Copias diarias y pruebas de restauración.'],
+ ['Acceso no autorizado','Autenticación, roles y registro de accesos.'],
+ ['Datos de agua incorrectos','Verificación periódica de las mediciones.'],
+ ['Retrasos del desarrollo','Seguimiento semanal y priorización del alcance.'],
+]
+const stakeholders = [
+ ['Gerente general','Aprueba el proyecto, toma decisiones y recibe informes.'],
+ ['Ingeniero ambiental','Define parámetros ambientales y valida los reportes.'],
+ ['Ingeniero agrónomo','Supervisa pesticidas y productos químicos.'],
+ ['Trabajadores agrícolas','Registran datos y participan en capacitación.'],
+ ['Desarrolladores','Diseñan, programan e implementan la plataforma.'],
+ ['Autoridades ambientales','Verifican el cumplimiento y la evidencia disponible.'],
+]
+const requirements = [
+ ['Usuarios y permisos','RF-01 a RF-03','Acceso, administración de usuarios y autorización por rol.'],
+ ['Pesticidas','RF-04 a RF-06','Aplicaciones, historial y catálogos.'],
+ ['Agua','RF-07 a RF-08','Consumo y detección de excesos.'],
+ ['Cobertura y vertimientos','RF-09 a RF-12','Zonas, mapas, fuente satelital externa y vertimientos.'],
+ ['Alertas y reportes','RF-13 a RF-16','Alertas, reportes, exportaciones e indicadores.'],
+ ['Auditoría y campo','RF-17 a RF-18','Trazabilidad y sincronización sin conexión.'],
+]
+const quality = [
+ ['Fiabilidad','Cero pérdidas en las pruebas de respaldo.'],
+ ['Seguridad','Cero fallas críticas en la revisión.'],
+ ['Usabilidad','Registro de campo en menos de 2 minutos.'],
+ ['Adecuación funcional','100 % de requisitos de prioridad alta aceptados.'],
+ ['Eficiencia','Consultas habituales en menos de 3 segundos.'],
+ ['Mantenibilidad','Código documentado y versionado.'],
+]
+const formatCOP = (v) => '$' + v.toLocaleString('es-CO')
+function ArticleSection({title, eyebrow, children}) {return <section className="article-section"><div className="eyebrow">{eyebrow}</div><h2>{title}</h2>{children}</section>}
+function Timeline() {let offset=0;return <div className="timeline"><div className="timeline-head"><span>CRONOGRAMA PROPUESTO</span><strong>12 semanas</strong></div>{schedule.map(([name,weeks],i)=>{const start=offset;offset+=weeks;return <div className="timeline-row" key={name}><div className="timeline-name"><span>{String(i+1).padStart(2,'0')}</span>{name}</div><div className="timeline-track"><div className="timeline-bar" style={{marginLeft:`${start/12*100}%`,width:`${weeks/12*100}%`}}/></div><strong>{weeks} {weeks===1?'semana':'semanas'}</strong></div>})}<p className="article-caption">Duraciones estimadas en el documento; no representan avance ejecutado.</p></div>}
+function Budget() {return <div className="budget-panel"><div className="budget-total"><span>PRESUPUESTO ESTIMADO</span><strong>$35.000.000 <small>COP</small></strong><p>La mayor partida corresponde al desarrollo del software.</p></div><div className="budget-items">{budget.map(([name,value])=><div className="budget-item" key={name}><div><span>{name}</span><strong>{formatCOP(value)}</strong></div><div className="budget-track"><span style={{width:`${value/35000000*100}%`}}/></div></div>)}</div></div>}
+function FactGrid({items}) {return <div className="fact-grid">{items.map(([title,desc],i)=><div className="fact-card" key={title}><span className="fact-number">{String(i+1).padStart(2,'0')}</span><h3>{title}</h3><p>{desc}</p></div>)}</div>}
+function RiskList(){return <div className="risk-list">{risks.map(([risk,action],i)=><div className="risk-row" key={risk}><span>{String(i+1).padStart(2,'0')}</span><strong>{risk}</strong><p>{action}</p></div>)}</div>}
+function ArticleOne(){return <>
+ <div className="article-lead"><p>AgroScan se plantea como una plataforma web de auditoría y control ambiental para empresas palmeras y bananeras. La propuesta responde a la necesidad de centralizar registros de pesticidas, consumo de agua, cobertura vegetal y vertimientos, y facilitar la elaboración de informes.</p><div className="article-lead-stat"><Activity size={25}/><strong>AgroScan</strong><span>Software ambiental agroindustrial</span></div></div>
+ <ArticleSection eyebrow="01 / CONTEXTO" title="La necesidad y el cliente"><p>El caso académico identifica como cliente a <strong>Agroindustrias del Caribe S.A.S.</strong>, empresa del sector agroindustrial ubicada en Magdalena, Colombia. La necesidad planteada es controlar y auditar el impacto ambiental de las operaciones agrícolas mediante información organizada y verificable.</p></ArticleSection>
+ <ArticleSection eyebrow="02 / SOLUCIÓN PROPUESTA" title="Tres frentes de control"><div className="feature-three"><div><span>01</span><h3>Pesticidas</h3><p>Productos, cantidades aplicadas, fechas y zonas de cultivo.</p></div><div><span>02</span><h3>Deforestación</h3><p>Áreas intervenidas y cambios en la cobertura vegetal.</p></div><div><span>03</span><h3>Agua</h3><p>Consumo de riego y detección de posibles excesos.</p></div></div><p>Como funciones de apoyo, se proponen reportes, alertas e indicadores ambientales para las auditorías y la toma de decisiones.</p></ArticleSection>
+ <ArticleSection eyebrow="03 / PARTICIPANTES" title="Interesados del proyecto"><FactGrid items={stakeholders}/></ArticleSection>
+ <ArticleSection eyebrow="04 / PLANIFICACIÓN INICIAL" title="Tiempo y presupuesto"><Timeline/><Budget/></ArticleSection>
+ <ArticleSection eyebrow="05 / ALCANCE" title="¿Qué se contempla en la propuesta?"><p>El alcance inicial comprende registro e historial de pesticidas, consumo de agua por zona, cambios de cobertura vegetal, informes de auditoría, alertas y administración de usuarios y permisos. No reemplaza inspecciones físicas ni análisis ambientales; las imágenes satelitales dependen de una fuente externa.</p></ArticleSection>
+ <ArticleSection eyebrow="06 / GESTIÓN DEL PROYECTO" title="Equipo y riesgos"><p>Se identifican las funciones de dirección del proyecto, análisis de sistemas, diseño UX/UI, desarrollo frontend y backend, administración de base de datos, validación ambiental y pruebas. Entre los riesgos previstos están errores de registro, fallas de conectividad, pérdida de datos, accesos no autorizados y retrasos.</p><RiskList/></ArticleSection>
+ <div className="article-conclusion"><strong>Resultado esperado</strong><p>Una plataforma tecnológica que contribuya al control de actividades agrícolas, la reducción de impactos ambientales y el cumplimiento de obligaciones ambientales. Es el resultado previsto en la propuesta, no un producto ya implementado.</p></div>
+ </>}
+function ArticleTwo(){return <>
+ <div className="article-lead"><p>El segundo taller profundiza la propuesta AgroScan y la transforma en un plan integral: define entregables, criterios de aceptación, viabilidad, riesgos, calidad, requerimientos y responsabilidades para orientar su ejecución.</p><div className="article-lead-stat"><CalendarDays size={25}/><strong>12 semanas</strong><span>Horizonte planificado</span></div></div>
+ <ArticleSection eyebrow="01 / PROPÓSITO Y ALCANCE" title="Una plataforma de control ambiental"><p>AgroScan busca sustituir registros dispersos en cuadernos, hojas de cálculo y reportes sueltos por una fuente de información centralizada, con historial útil para auditorías. El objetivo propuesto es entregar una plataforma web funcional en 12 semanas.</p><FactGrid items={modules}/><div className="article-note"><strong>Fuera del alcance:</strong> suministro de imágenes satelitales, aplicación móvil nativa, integración con ERP y sensores físicos. La primera versión contempla captura web adaptable a celular y registro manual de datos de cobertura.</div></ArticleSection>
+ <ArticleSection eyebrow="02 / ENTREGABLES" title="Hitos de entrega"><div className="milestone-list">{[['Semana 2','Requerimientos aprobados'],['Semana 4','Arquitectura, datos y prototipos'],['Semana 8','Software de pruebas con prioridades altas'],['Semana 10','Informe de pruebas sin defectos críticos'],['Semana 11','Producción, respaldo, manual y capacitación'],['Semana 12','Código, documentación y acta de cierre']].map(([when,what])=><div key={when}><span>{when}</span><strong>{what}</strong></div>)}</div><p>La aceptación requiere módulos validados con el ingeniero ambiental, reportes generables por el auditor y capacitación completada.</p></ArticleSection>
+ <ArticleSection eyebrow="03 / VIABILIDAD" title="Cinco dimensiones de evaluación"><FactGrid items={[["Técnica","API REST, PostgreSQL con soporte geográfico, reportes y aplicación web adaptable; especial cuidado con conexión y satélites."],["Económica","Inversión estimada de $35 millones COP, sin imágenes satelitales ni sensores."],["Operativa","Interfaz sencilla, piloto y capacitación para facilitar la adopción."],["Legal y normativa","Trazabilidad de registros, protección de datos y parámetros ambientales definidos con el cliente."],["Cronograma","Doce semanas, con priorización estricta y seguimiento semanal."]]}/></ArticleSection>
+ <ArticleSection eyebrow="04 / RECURSOS" title="Presupuesto y cronograma"><Budget/><Timeline/><div className="article-note">La prioridad inicial se concentra en pesticidas, agua, usuarios y reportes. Los valores y plazos son estimaciones que el documento propone validar con el cliente.</div></ArticleSection>
+ <ArticleSection eyebrow="05 / RIESGOS" title="Prevenir antes de corregir"><p>El plan propone revisar los riesgos semanalmente y activar respuestas según su impacto, como restaurar respaldos, cargar registros posteriormente o ajustar requisitos de menor prioridad.</p><RiskList/></ArticleSection>
+ <ArticleSection eyebrow="06 / CALIDAD" title="Metas verificables"><p>El documento toma como referencia ISO/IEC 25010 y establece objetivos de fiabilidad, seguridad, usabilidad, funcionalidad, eficiencia y mantenibilidad.</p><FactGrid items={quality}/><p>Se contemplan pruebas de integración, sistema, seguridad, usabilidad, trabajo sin conexión, restauración y aceptación con datos reales. La entrega exige que no queden defectos críticos ni altos abiertos.</p></ArticleSection>
+ <ArticleSection eyebrow="07 / REQUERIMIENTOS" title="Del requisito a la prueba"><p>El proceso comprende captura, documentación, validación, trazabilidad y control de cambios. La priorización se plantea mediante MoSCoW: obligatorio (M), debería estar (S) y podría estar (C).</p><div className="requirement-list">{requirements.map(([name,codes,desc])=><div key={name}><span>{codes}</span><div><strong>{name}</strong><p>{desc}</p></div></div>)}</div><div className="article-note"><strong>Requisitos no funcionales:</strong> rendimiento inferior a 3 segundos, disponibilidad mensual de al menos 99 % en horario laboral, HTTPS y contraseñas con hash, registros en menos de 2 minutos, copias diarias, integridad, mantenibilidad y privacidad.</div></ArticleSection>
+ <ArticleSection eyebrow="08 / PERSONAS Y SEGUIMIENTO" title="Organización del trabajo"><p>El plan identifica dirección, análisis, UX/UI, frontend, backend, administración de datos, validación ambiental y pruebas. El equipo central lo conforman dos integrantes que cubren varios cargos, con apoyo puntual del cliente. La asignación concreta se acuerda en la semana 1.</p><p>Se propone un enfoque iterativo con ciclos de una o dos semanas, seguimiento semanal, informes al gerente y demostraciones quincenales a los usuarios clave.</p></ArticleSection>
+ <div className="article-conclusion"><strong>Conclusión del plan</strong><p>El documento considera viable el proyecto bajo condiciones: validar cifras y parámetros con el cliente, priorizar requisitos esenciales, cuidar la adopción y controlar los riesgos. Las funcionalidades descritas son propuestas de desarrollo, no características ya implementadas.</p></div>
+ </>}
+function PublicationsPage(){const [selected,setSelected]=useState('taller-2');const article=articles.find(a=>a.id===selected);return <div className="inner-page content-wrap publication-page">
+ <PageHeading eyebrow="BITÁCORA / ACTIVIDADES ACADÉMICAS" title="Publicaciones" description="Un registro ordenado de los talleres, propuestas y aprendizajes de Gestión de Proyectos. Cada actividad tiene su propia entrada y el blog seguirá creciendo." icon={BookOpen}/>
+ <div className="publication-layout"><aside className="publication-sidebar"><span className="eyebrow">ARCHIVO DE ENTRADAS</span>{articles.map(a=><button key={a.id} onClick={()=>{setSelected(a.id);window.scrollTo({top:0,behavior:'smooth'})}} className={`publication-select ${selected===a.id?'active':''}`}><span>{a.type} · 2026</span><strong>{a.title}</strong><small>{a.date}</small><ArrowUpRight size={16}/></button>)}<div className="publication-upcoming"><BookOpen size={20}/><strong>Próximas actividades</strong><p>Las nuevas entregas se agregarán como publicaciones independientes.</p></div></aside>
+ <article className="publication-article"><div className="article-cover"><div className="article-cover-top"><span>{article.type.toUpperCase()} · GRUPO 6</span><Activity size={23}/></div><h1>{article.title}</h1><p>{article.description}</p><div className="article-cover-bottom"><span><CalendarDays size={15}/>{article.date}</span><span>INGENIERÍA DE SISTEMAS</span></div></div><div className="article-byline"><span><Users size={17}/> Arturo Hernández Hernández · Juan Felipe Velasco Tobón</span><span>UTS · Bucaramanga</span></div><div className="article-body">{selected==='taller-1'?<ArticleOne/>:<ArticleTwo/>}<div className="article-end"><span>FIN DE LA PUBLICACIÓN</span><button onClick={()=>{setSelected(selected==='taller-1'?'taller-2':'taller-1');window.scrollTo({top:0,behavior:'smooth'})}}>Leer {selected==='taller-1'?'Taller 2':'Taller 1'} <ArrowRight size={17}/></button></div></div></article></div>
+ </div>}
+
 function BrandMark() {
   return <div className="brand-mark"><Layers3 size={19} strokeWidth={2.2} /></div>
 }
@@ -160,6 +242,7 @@ function App() {
   const searchableItems = useMemo(() => [
     ...roles.map((item) => ({ ...item, type: 'Rol', section: 'roles' })),
     ...concepts.map((item) => ({ ...item, name: item.title, short: item.summary, type: 'Concepto', section: item.id === 'daily-scrum' ? 'daily' : 'conceptos' })),
+    ...articles.map((item) => ({ id: item.id, name: item.title, short: item.description, definition: item.searchText, type: 'Publicación', section: 'publicaciones' })),
   ], [])
 
   const searchResults = search.trim()
@@ -206,7 +289,7 @@ function App() {
         </div>
         {showSearch && (
           <div className="search-panel">
-            <div className="search-box"><Search size={18} /><input autoFocus value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Busca roles o conceptos de Scrum..." /><button onClick={() => setShowSearch(false)} aria-label="Cerrar búsqueda"><X size={18} /></button></div>
+            <div className="search-box"><Search size={18} /><input autoFocus value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Busca publicaciones, roles o conceptos..." /><button onClick={() => setShowSearch(false)} aria-label="Cerrar búsqueda"><X size={18} /></button></div>
             {search.trim() && <div className="search-results">
               {searchResults.length ? searchResults.map((item) => <button key={`${item.type}-${item.id}`} onClick={() => openSearchResult(item)}><span className="search-result-icon">{item.type === 'Rol' ? <Users size={16} /> : <BookOpen size={16} />}</span><span><strong>{item.name}</strong><small>{item.type} · {item.short}</small></span><ArrowUpRight size={16} /></button>) : <p className="empty-search">No encontramos resultados para “{search}”.</p>}
             </div>}
@@ -220,6 +303,7 @@ function App() {
         {activeSection === 'roles' && <RolesPage expandedRole={expandedRole} setExpandedRole={setExpandedRole} />}
         {activeSection === 'conceptos' && <ConceptsPage expandedConcept={expandedConcept} setExpandedConcept={setExpandedConcept} />}
         {activeSection === 'daily' && <DailyPage />}
+        {activeSection === 'publicaciones' && <PublicationsPage />}
         {activeSection === 'grupo' && <GroupPage />}
       </main>
 
@@ -302,8 +386,16 @@ function HomePage({ navigate }) {
       <div className="flow-caption"><span><span className="caption-dot" /> Durante el Sprint, el equipo realiza reuniones Daily Scrum.</span><button onClick={() => navigate('daily')}>Ver Daily Scrum <ArrowUpRight size={15} /></button></div>
     </section>
 
+    <section className="content-wrap journal-home">
+      <div className="section-topline"><span className="eyebrow">04 / BITÁCORA ACADÉMICA</span><span className="section-note">Noviembre 2026</span></div>
+      <div className="journal-home-head"><h2>Últimas <em>publicaciones.</em></h2><button className="inline-link" onClick={() => navigate('publicaciones')}>Ver todas las entradas <ArrowRight size={16}/></button></div>
+      <div className="journal-preview-grid">
+        <button onClick={() => navigate('publicaciones')} className="journal-preview"><span className="journal-preview-art"><Activity size={38}/></span><span className="journal-kicker">TALLER 2 · 13 NOV 2026</span><strong>Plan integral del proyecto AgroScan</strong><span>Alcance, viabilidad, presupuesto, riesgos, calidad y requerimientos.</span><span className="journal-read">Leer publicación <ArrowUpRight size={16}/></span></button>
+        <button onClick={() => navigate('publicaciones')} className="journal-preview"><span className="journal-preview-art alternate"><Target size={38}/></span><span className="journal-kicker">TALLER 1 · 12 NOV 2026</span><strong>AgroScan: propuesta de software ambiental</strong><span>Problema, interesados, propósito, alcance y planificación inicial.</span><span className="journal-read">Leer publicación <ArrowUpRight size={16}/></span></button>
+      </div>
+    </section>
     <section className="content-wrap next-section">
-      <div className="next-banner"><div className="next-icon"><BookOpen size={23} /></div><div className="next-copy"><span className="eyebrow light">BLOG EN CONSTRUCCIÓN</span><h2>Este espacio seguirá creciendo.</h2><p>Las siguientes actividades de Gestión de Proyectos podrán incorporarse como nuevas publicaciones y secciones.</p></div><div className="next-decoration"><div className="deco-ring" /><div className="deco-ring ring-two" /><Layers3 size={48} /></div></div>
+      <div className="next-banner"><div className="next-icon"><BookOpen size={23} /></div><div className="next-copy"><span className="eyebrow light">NUEVAS PUBLICACIONES · AGROSCAN</span><h2>Del concepto a la planificación.</h2><p>Ya incorporamos dos nuevas publicaciones sobre AgroScan: la propuesta inicial y el plan integral del proyecto.</p></div><div className="next-decoration"><div className="deco-ring" /><div className="deco-ring ring-two" /><Layers3 size={48} /></div></div>
     </section>
   </>
 }
