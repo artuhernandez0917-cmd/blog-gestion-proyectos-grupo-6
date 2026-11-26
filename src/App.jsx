@@ -5,6 +5,10 @@ import {
   ArrowRight,
   ArrowUpRight,
   BookOpen,
+  Bot,
+  Copy,
+  FileCheck2,
+  PenLine,
   CalendarDays,
   Check,
   CheckCircle2,
@@ -38,6 +42,7 @@ const sections = [
   { id: 'conceptos', label: 'Conceptos', icon: Layers3 },
   { id: 'daily', label: 'Daily Scrum', icon: MessageCircle },
   { id: 'publicaciones', label: 'Publicaciones', icon: BookOpen },
+  { id: 'ia', label: 'Uso de IA', icon: Bot },
   { id: 'grupo', label: 'Grupo 6', icon: GraduationCap },
 ]
 
@@ -150,6 +155,26 @@ const articles = [
   {id:'taller-2', title:'Plan integral del proyecto AgroScan', date:'13 de noviembre de 2026', type:'Taller 2', description:'Planificación integral del sistema de auditoría y control ambiental agroindustrial.', searchText:'alcance viabilidad técnica económica operativa legal cronograma riesgos calidad requerimientos personal presupuesto',},
   {id:'taller-1', title:'AgroScan: propuesta de software ambiental', date:'12 de noviembre de 2026', type:'Taller 1', description:'Identificación del problema, propuesta de solución, actores involucrados y planificación inicial.', searchText:'palmeras bananeras cliente interesados pesticidas deforestación agua alcance riesgos presupuesto cronograma',},
 ]
+// Ejemplos de prompts relacionados con las actividades del Grupo 6.
+const aiPromptExamples = [
+  {
+    id: 'chatgpt',
+    number: '01',
+    tool: 'ChatGPT',
+    title: 'Estructuración de la propuesta AgroScan',
+    label: 'Ejemplo · planteamiento del proyecto',
+    text: 'Actúa como asesor en gestión de proyectos de software. Ayúdame a organizar una propuesta académica para AgroScan, una plataforma web orientada al control ambiental en cultivos de palma y banano. Sugiere cómo presentar el problema, el propósito, los interesados, el alcance y las limitaciones. No inventes datos de la empresa y señala qué información debería verificarse.',
+  },
+  {
+    id: 'deepseek',
+    number: '02',
+    tool: 'DeepSeek',
+    title: 'Revisión de un plan integral',
+    label: 'Ejemplo · revisión y claridad',
+    text: 'Revisa la estructura de un plan integral académico para AgroScan. Comprueba que queden diferenciados el alcance, los entregables, la viabilidad, los riesgos, el aseguramiento de calidad y los requerimientos funcionales y no funcionales. Sugiere mejoras de redacción y coherencia para un cronograma estimado de 12 semanas y un presupuesto propuesto de $35.000.000 COP, sin presentar estos valores como resultados ejecutados.',
+  },
+]
+
 const schedule = [['Análisis de requerimientos',2],['Diseño del sistema',2],['Desarrollo y programación',4],['Pruebas del software',2],['Implementación y capacitación',1],['Entrega final',1]]
 const budget = [['Análisis y diseño',5000000],['Desarrollo del software',18000000],['Base de datos y alojamiento',3000000],['Pruebas y seguridad',4000000],['Implementación y capacitación',3000000],['Mantenimiento inicial',2000000]]
 const modules = [
@@ -243,6 +268,7 @@ function App() {
     ...roles.map((item) => ({ ...item, type: 'Rol', section: 'roles' })),
     ...concepts.map((item) => ({ ...item, name: item.title, short: item.summary, type: 'Concepto', section: item.id === 'daily-scrum' ? 'daily' : 'conceptos' })),
     ...articles.map((item) => ({ id: item.id, name: item.title, short: item.description, definition: item.searchText, type: 'Publicación', section: 'publicaciones' })),
+    { id: 'uso-ia', name: 'Uso de inteligencia artificial', short: 'ChatGPT, DeepSeek, ejemplos de prompts y declaración de responsabilidad', type: 'Transparencia', section: 'ia' },
   ], [])
 
   const searchResults = search.trim()
@@ -304,6 +330,7 @@ function App() {
         {activeSection === 'conceptos' && <ConceptsPage expandedConcept={expandedConcept} setExpandedConcept={setExpandedConcept} />}
         {activeSection === 'daily' && <DailyPage />}
         {activeSection === 'publicaciones' && <PublicationsPage />}
+        {activeSection === 'ia' && <AiDisclosurePage />}
         {activeSection === 'grupo' && <GroupPage />}
       </main>
 
@@ -465,8 +492,72 @@ function GroupPage() {
   </div>
 }
 
+function AiDisclosurePage() {
+  const [copyStatus, setCopyStatus] = useState('')
+
+  const copyExample = async (id, content) => {
+    try {
+      await navigator.clipboard.writeText(content)
+      setCopyStatus(id)
+    } catch {
+      setCopyStatus(`error-${id}`)
+    }
+  }
+
+  return <div className="inner-page content-wrap ai-page">
+    <PageHeading
+      eyebrow="05 / TRANSPARENCIA ACADÉMICA"
+      title="Uso de inteligencia artificial"
+      description="Cómo utilizamos la IA como apoyo para elaborar y contrastar los documentos entregados por ATENA y, después, para organizar el blog académico. Incluye ejemplos de prompts y el compromiso de los autores."
+      icon={Bot}
+    />
+
+    <section className="ai-hero">
+      <div className="ai-hero-copy">
+        <span className="eyebrow light">HERRAMIENTAS DE APOYO</span>
+        <h2>De los documentos académicos al blog: un proceso revisado por sus autores.</h2>
+        <p>Durante la elaboración de los talleres de Gestión de Proyectos, incluidos la propuesta de AgroScan y su plan integral, utilizamos ChatGPT y DeepSeek como herramientas de apoyo para consultar conceptos, organizar ideas y revisar textos. Contrastamos la información obtenida antes de incorporarla a los documentos académicos entregados por ATENA. Posteriormente, utilizamos esos documentos revisados como base para desarrollar y organizar las publicaciones de este blog. Las decisiones y el contenido final corresponden a los autores.</p>
+        <div className="ai-hero-chips"><span><CheckCircle2 size={15}/> Apoyo en documentos</span><span><FileCheck2 size={15}/> Información contrastada</span><span><BookOpen size={15}/> Blog a partir de los talleres</span></div>
+      </div>
+      <div className="ai-hero-art" aria-hidden="true">
+        <div className="ai-orbit ai-orbit-one"/><div className="ai-orbit ai-orbit-two"/>
+        <div className="ai-symbol"><Bot size={51} strokeWidth={1.5}/><span>IA</span></div>
+        <div className="ai-float ai-float-first"><PenLine size={15}/> Ideas</div>
+        <div className="ai-float ai-float-second"><FileCheck2 size={15}/> Revisión</div>
+      </div>
+    </section>
+
+    <section className="ai-block">
+      <div className="ai-section-heading"><div><span className="eyebrow">01 / IDENTIFICACIÓN</span><h2>Herramientas utilizadas</h2></div></div>
+      <div className="ai-tools-grid">
+        <div className="ai-tool-card chatgpt"><div className="ai-tool-top"><span className="ai-tool-icon"><MessageCircle size={25}/></span><span className="ai-tool-count">HERRAMIENTA 01</span></div><h3>ChatGPT</h3><p>Se utilizó como apoyo para consultar conceptos, estructurar ideas y proponer formas de presentar la información de los talleres. También apoyó la organización del contenido al adaptarlo a las publicaciones del blog.</p><span className="ai-tool-tag">Documentos académicos y blog</span></div>
+        <div className="ai-tool-card deepseek"><div className="ai-tool-top"><span className="ai-tool-icon"><Bot size={25}/></span><span className="ai-tool-count">HERRAMIENTA 02</span></div><h3>DeepSeek</h3><p>Se utilizó como apoyo para examinar explicaciones, revisar la claridad de los textos y contrastar enfoques durante la preparación de los documentos. Las sugerencias se revisaron antes de incorporarlas al trabajo final.</p><span className="ai-tool-tag">Documentos académicos y contraste</span></div>
+      </div>
+    </section>
+
+    <section className="ai-block ai-prompts-block">
+      <div className="ai-section-heading"><div><span className="eyebrow">02 / EJEMPLOS</span><h2>Dos ejemplos de prompts</h2></div></div>
+      <div className="ai-prompts-grid">{aiPromptExamples.map(example => <article className="ai-prompt-card" key={example.id}>
+        <div className="ai-prompt-head"><span className="ai-prompt-index">{example.number}</span><span className="ai-prompt-platform">{example.tool}</span></div>
+        <span className="ai-prompt-label">{example.label}</span>
+        <h3>{example.title}</h3>
+        <div className="ai-prompt-quote"><span className="ai-quote-mark">“</span><p>{example.text}</p></div>
+        <button type="button" className="ai-copy-button" onClick={() => copyExample(example.id, example.text)} aria-label={`Copiar el ejemplo de prompt de ${example.tool}`}>
+          {copyStatus === example.id ? <Check size={16}/> : <Copy size={16}/>}
+          {copyStatus === example.id ? 'Prompt copiado' : copyStatus === `error-${example.id}` ? 'No se pudo copiar' : 'Copiar ejemplo'}
+        </button>
+      </article>)}</div>
+    </section>
+
+    <section className="ai-responsibility" aria-labelledby="ai-responsibility-title">
+      <div className="ai-responsibility-icon"><ShieldCheck size={28}/></div>
+      <div className="ai-responsibility-content"><span className="eyebrow light">03 / COMPROMISO DE LOS AUTORES</span><h2 id="ai-responsibility-title">Declaración de responsabilidad</h2><blockquote>“Nos hacemos responsables de toda la información publicada en este blog, incluida aquella que haya sido elaborada o redactada con apoyo de herramientas de inteligencia artificial, así como de la información suministrada en los documentos entregados a través de ATENA. Asumimos la responsabilidad de revisar, verificar y corregir su contenido cuando sea necesario.”</blockquote><div className="ai-signature"><span>Arturo Hernández Hernández</span><span>Juan Felipe Velasco Tobón</span><small>Autores · Grupo 6 · Ingeniería de Sistemas</small></div></div>
+    </section>
+  </div>
+}
+
 function Footer({ navigate }) {
-  return <footer className="site-footer"><div className="content-wrap footer-main"><div className="footer-brand"><BrandMark /><div><strong>Gestión de Proyectos</strong><span>Blog académico · Grupo 6</span></div></div><p>Un espacio de consulta y aprendizaje sobre los temas desarrollados en clase.</p><div className="footer-links"><button onClick={() => navigate('inicio')}>Inicio</button><button onClick={() => navigate('roles')}>Roles</button><button onClick={() => navigate('conceptos')}>Conceptos</button><button onClick={() => navigate('grupo')}>Grupo 6</button></div></div><div className="content-wrap footer-bottom"><span>© 2026 · Ingeniería de Sistemas · UTS</span><span>Contenido basado en el taller académico del Grupo 6.</span></div></footer>
+  return <footer className="site-footer"><div className="content-wrap footer-main"><div className="footer-brand"><BrandMark /><div><strong>Gestión de Proyectos</strong><span>Blog académico · Grupo 6</span></div></div><p>Un espacio de consulta y aprendizaje sobre los temas desarrollados en clase.</p><div className="footer-links"><button onClick={() => navigate('inicio')}>Inicio</button><button onClick={() => navigate('roles')}>Roles</button><button onClick={() => navigate('conceptos')}>Conceptos</button><button onClick={() => navigate('publicaciones')}>Publicaciones</button><button onClick={() => navigate('ia')}>Uso de IA</button><button onClick={() => navigate('grupo')}>Grupo 6</button></div></div><div className="content-wrap footer-bottom"><span>© 2026 · Ingeniería de Sistemas · UTS</span><span>Uso de IA en los documentos y el blog · Declaración de responsabilidad conjunta.</span></div></footer>
 }
 
 export default App
