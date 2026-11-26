@@ -246,8 +246,8 @@ function ArticleTwo(){return <>
  <div className="article-conclusion"><strong>Conclusión del plan</strong><p>El documento considera viable el proyecto bajo condiciones: validar cifras y parámetros con el cliente, priorizar requisitos esenciales, cuidar la adopción y controlar los riesgos. Las funcionalidades descritas son propuestas de desarrollo, no características ya implementadas.</p></div>
  </>}
 function PublicationsPage(){const [selected,setSelected]=useState('taller-2');const article=articles.find(a=>a.id===selected);return <div className="inner-page content-wrap publication-page">
- <PageHeading eyebrow="BITÁCORA / ACTIVIDADES ACADÉMICAS" title="Publicaciones" description="Un registro ordenado de los talleres, propuestas y aprendizajes de Gestión de Proyectos. Cada actividad tiene su propia entrada y el blog seguirá creciendo." icon={BookOpen}/>
- <div className="publication-layout"><aside className="publication-sidebar"><span className="eyebrow">ARCHIVO DE ENTRADAS</span>{articles.map(a=><button key={a.id} onClick={()=>{setSelected(a.id);window.scrollTo({top:0,behavior:'smooth'})}} className={`publication-select ${selected===a.id?'active':''}`}><span>{a.type} · 2026</span><strong>{a.title}</strong><small>{a.date}</small><ArrowUpRight size={16}/></button>)}<div className="publication-upcoming"><BookOpen size={20}/><strong>Próximas actividades</strong><p>Las nuevas entregas se agregarán como publicaciones independientes.</p></div></aside>
+ <PageHeading eyebrow="BITÁCORA / ACTIVIDADES ACADÉMICAS" title="Publicaciones" description="Archivo de los talleres sobre AgroScan desarrollados durante el último corte de Gestión de Proyectos. Aquí se presentan la propuesta inicial y el plan integral del proyecto." icon={BookOpen}/>
+ <div className="publication-layout"><aside className="publication-sidebar"><span className="eyebrow">ARCHIVO DE ENTRADAS</span>{articles.map(a=><button key={a.id} onClick={()=>{setSelected(a.id);window.scrollTo({top:0,behavior:'smooth'})}} className={`publication-select ${selected===a.id?'active':''}`}><span>{a.type} · 2026</span><strong>{a.title}</strong><small>{a.date}</small><ArrowUpRight size={16}/></button>)}</aside>
  <article className="publication-article"><div className="article-cover"><div className="article-cover-top"><span>{article.type.toUpperCase()} · GRUPO 6</span><Activity size={23}/></div><h1>{article.title}</h1><p>{article.description}</p><div className="article-cover-bottom"><span><CalendarDays size={15}/>{article.date}</span><span>INGENIERÍA DE SISTEMAS</span></div></div><div className="article-byline"><span><Users size={17}/> Arturo Hernández Hernández · Juan Felipe Velasco Tobón</span><span>UTS · Bucaramanga</span></div><div className="article-body">{selected==='taller-1'?<ArticleOne/>:<ArticleTwo/>}<div className="article-end"><span>FIN DE LA PUBLICACIÓN</span><button onClick={()=>{setSelected(selected==='taller-1'?'taller-2':'taller-1');window.scrollTo({top:0,behavior:'smooth'})}}>Leer {selected==='taller-1'?'Taller 2':'Taller 1'} <ArrowRight size={17}/></button></div></div></article></div>
  </div>}
 
@@ -378,9 +378,9 @@ function HomePage({ navigate }) {
       </div>
       <div className="intro-aside">
         <div className="aside-mark"><Sparkles size={21} /></div>
-        <span className="aside-kicker">EN ESTA PRIMERA ENTREGA</span>
-        <strong>Una base para seguir aprendiendo.</strong>
-        <p>El blog está preparado para incorporar las próximas actividades del curso sin perder su estructura.</p>
+        <span className="aside-kicker">RECOPILACIÓN DEL ÚLTIMO CORTE</span>
+        <strong>Nuestro trabajo académico, en un solo lugar.</strong>
+        <p>Este blog reúne el taller teórico de Scrum y los talleres sobre AgroScan realizados durante el último corte.</p>
       </div>
     </section>
 
@@ -422,7 +422,7 @@ function HomePage({ navigate }) {
       </div>
     </section>
     <section className="content-wrap next-section">
-      <div className="next-banner"><div className="next-icon"><BookOpen size={23} /></div><div className="next-copy"><span className="eyebrow light">NUEVAS PUBLICACIONES · AGROSCAN</span><h2>Del concepto a la planificación.</h2><p>Ya incorporamos dos nuevas publicaciones sobre AgroScan: la propuesta inicial y el plan integral del proyecto.</p></div><div className="next-decoration"><div className="deco-ring" /><div className="deco-ring ring-two" /><Layers3 size={48} /></div></div>
+      <div className="next-banner"><div className="next-icon"><BookOpen size={23} /></div><div className="next-copy"><span className="eyebrow light">TALLERES DEL ÚLTIMO CORTE · AGROSCAN</span><h2>Del concepto a la planificación.</h2><p>Ya incorporamos dos nuevas publicaciones sobre AgroScan: la propuesta inicial y el plan integral del proyecto.</p></div><div className="next-decoration"><div className="deco-ring" /><div className="deco-ring ring-two" /><Layers3 size={48} /></div></div>
     </section>
   </>
 }
@@ -485,10 +485,10 @@ function DailyPage() {
 
 function GroupPage() {
   return <div className="inner-page content-wrap group-page">
-    <PageHeading eyebrow="04 / INFORMACIÓN ACADÉMICA" title="Sobre este trabajo" description="Datos de identificación del taller teórico de Gestión de Proyectos, desarrollado por el Grupo 6." icon={GraduationCap} />
+    <PageHeading eyebrow="04 / INFORMACIÓN ACADÉMICA" title="Sobre este trabajo" description="Datos académicos de las actividades desarrolladas por el Grupo 6 durante el último corte de Gestión de Proyectos." icon={GraduationCap} />
     <div className="group-banner"><div className="group-banner-mark"><GraduationCap size={32} /></div><div><span className="eyebrow light">UNIVERSIDAD TECNOLÓGICA DE SANTANDER</span><h2>Ingeniería de Sistemas</h2><p>Bucaramanga · 2026</p></div><div className="group-stamp">GRUPO<br /><strong>06</strong></div></div>
     <div className="group-info-grid"><div className="group-info-card"><span className="detail-label">INTEGRANTES</span><div className="member-row"><div className="member-avatar">AH</div><div><strong>Arturo Hernández Hernández</strong><small>Estudiante · Grupo 6</small></div></div><div className="member-row"><div className="member-avatar avatar-violet">JV</div><div><strong>Juan Felipe Velasco Tobón</strong><small>Estudiante · Grupo 6</small></div></div></div><div className="group-info-card instructor-card"><span className="detail-label">DOCENTE</span><div className="instructor-icon"><GraduationCap size={24} /></div><h3>Gretcheen Kathleen<br />Gelvez Ricciulli</h3><p>Docente de Gestión de Proyectos</p><div className="class-code"><span>GRUPO ACADÉMICO</span><strong>A194</strong></div></div></div>
-    <div className="academic-note"><FileText size={19} /><div><strong>Sobre el contenido</strong><p>Esta primera versión presenta los roles y conceptos de Scrum desarrollados en el Taller Teórico de Gestión de Proyectos. Las próximas actividades podrán añadirse como nuevas secciones del blog.</p></div></div>
+    <div className="academic-note"><FileText size={19} /><div><strong>Sobre el contenido</strong><p>Este blog recopila las actividades desarrolladas por el Grupo 6 durante el último corte de Gestión de Proyectos y documentadas en los archivos de Word entregados mediante ATENA: el taller teórico sobre roles y conceptos de Scrum, el Taller 1 de presentación de AgroScan y el Taller 2 con el plan integral del proyecto. Constituye el registro final de las actividades de este corte.</p></div></div>
   </div>
 }
 
